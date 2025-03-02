@@ -91,10 +91,49 @@ Data:
 - Response validation
 - Error case testing
 
+## Execution Metrics
+```python
+def get_total_result_metrics(execution_info_list: List[Dict]) -> Dict:
+    """
+    Extracts TOTAL RESULT metrics from execution info.
+    Returns metrics including:
+    - Total tokens used
+    - Prompt/completion token counts
+    - Successful requests
+    - Total cost in USD
+    - Execution time
+    """
+```
+
+### Metrics Structure
+```python
+{
+    "node_name": "TOTAL RESULT",
+    "total_tokens": int,
+    "prompt_tokens": int,
+    "completion_tokens": int,
+    "successful_requests": int,
+    "total_cost_USD": float,
+    "exec_time": float
+}
+```
+
 ## Monitoring
 - API usage tracking
+  - Token consumption monitoring
+  - Cost tracking per request
+  - Request success rate
 - Performance metrics
+  - Execution time tracking
+  - Node-level performance
+  - Total processing time
 - Error rates
+  - Request failures
+  - Token limit issues
+  - API timeouts
 - Response times
+  - Per-node timing
+  - Total execution timing
+  - Processing bottlenecks
 
 This document will be updated as the Gemini API integration evolves.
