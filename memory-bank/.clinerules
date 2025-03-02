@@ -1,0 +1,62 @@
+# Project Rules and Patterns
+
+- Never read .env files
+- Create virtual environment for 'python -m venv'
+- Check the virtual environemnt is active before executing installs in terminal
+- Terminal commands use ; not &&
+- Activate and use the venv '.venv/Scripts/activate'
+
+
+## Project Intelligence
+- Memory bank structure is critical for maintaining project context
+- All code changes must be documented in activeContext.md
+- Progress updates must be reflected in progress.md
+
+## File Organization
+- Project root: c:/GitHub/2_Adri_Github/SmartScraper
+- Memory bank location: c:/GitHub/2_Adri_Github/SmartScraper/memory-bank
+- Source code will be in src/ directory
+- Tests will be in tests/ directory
+
+## Development Practices
+- Use Python 3.11+ features
+- Virtual environment required for development
+- Follow PEP 8 style guidelines
+- Use pre-commit hooks for code quality
+
+## Version Control
+- Main branch for stable releases
+- Development branch for active work
+- Feature branches for new functionality
+- PR reviews required for merges
+
+## Documentation
+- Update memory bank after significant changes
+- Keep activeContext.md current
+- Document all API functions
+- Include usage examples
+
+## Memory Bank Updates
+- Required after new feature implementation
+- Required after architectural changes
+- Required after dependency updates
+- Required when user requests "update memory bank"
+
+## Terminal Commands
+- Verify virtual environment before executing commands
+- Use ; for command chaining
+- Document command purposes
+
+## Code Style
+- Use type hints
+- Document class and function purposes
+- Follow consistent naming conventions
+- Implement proper error handling
+
+## Testing Requirements
+- Unit tests for all functionality
+- Integration tests for API
+- Document test coverage
+- Test error scenarios
+
+This file will be updated as new patterns and rules are discovered during development.
