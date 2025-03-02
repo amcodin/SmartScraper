@@ -91,10 +91,10 @@ class ParseNode(BaseNode):
             link_urls, img_urls = self._extract_urls(
                 docs_transformed.page_content, source
             )
-
+#           ## TODO maybe change the chunk size
             chunks = split_text_into_chunks(
                 text=docs_transformed.page_content,
-                chunk_size=self.chunk_size - 250,
+                chunk_size=self.chunk_size - 250,  
             )
         else:
             docs_transformed = docs_transformed[0]

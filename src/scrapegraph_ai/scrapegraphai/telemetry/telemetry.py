@@ -85,7 +85,7 @@ def _check_config_and_environ_for_telemetry_flag(
 
 
 config = _load_config(DEFAULT_CONFIG_LOCATION)
-g_telemetry_enabled = _check_config_and_environ_for_telemetry_flag(True, config)
+g_telemetry_enabled = _check_config_and_environ_for_telemetry_flag(False, config)
 g_anonymous_id = config["DEFAULT"]["anonymous_id"]
 CALL_COUNTER = 0
 MAX_COUNT_SESSION = 1000
