@@ -49,7 +49,7 @@ smart_scraper_graph = SmartScraperGraph(
         "promotion_price": "Promotion price from promotion_details",
         "promotion_details": "Any current promotion or null",
         "plan_details": "Additional plan features",
-        "confidence": [Confidence score between 0.0 and 1.0 indicating match quality. Must be >= 0.8 for verification.],
+        "confidence": [Confidence score between 0.0 and 1.0 indicating match quality. Must be >= 0.9 for verification.],
         "match_criteria": {
         "speed_match": [Boolean - True if download speed is exactly 100Mbps, otherwise False]
     }
