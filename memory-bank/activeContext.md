@@ -11,6 +11,13 @@ Initial project setup and foundation development.
 5. Set up Python virtual environment (.venv)
    - Python version: 3.11.9
    - Virtual environment activated
+6. Installed project dependencies
+   - scrapegraphai and dependencies
+   - playwright browsers installed
+7. Configured and tested web scraper
+   - Successfully implemented SmartScraperGraph
+   - Using google_genai/gemini-2.0-flash model
+   - Verified working JSON output for NBN plan data
 
 ## Next Steps
 1. Set up development environment
