@@ -5,12 +5,40 @@ from dotenv import load_dotenv
 # Load environment variables from .env
 load_dotenv()
 
+
+## https://docs.scrapegraphai.com/services/additional-parameters/headers
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    "Cookie": "country=AU; language=en; currency=AUD; theme=dark; notifications=enabled"
+}
+
+#### Gemini model supported Arguments
+# 
+# api_key: For API authentication
+# credentials: Alternative auth method (Google credentials object)
+# temperature: Controls randomness (0.0-1.0)
+# top_p: Nucleus sampling parameter (0.0-1.0)
+# top_k: Limits token selection to top K options
+# max_output_tokens: Maximum response length (not max_tokens)
+# model: The Gemini model name/version
+# Also Supported
+# safety_settings: Controls content filtering thresholds
+#
+# Not Standard Gemini Arguments
+# timeout: Not in standard Gemini parameters (though might work in some clients)
+# client_options: Not standard for direct Gemini API
+# transport: Not standard for Gemini
+# additional_headers: Not standard for Gemini
+#
+# The core generation parameters are temperature, top_p, top_k, and max_output_tokens.
+
 # Define the configuration for the scraping pipeline
 graph_config = {
     "llm": {
         "api_key": os.getenv("GEMINI_API_KEY"),
         "model": "google_genai/gemini-2.0-flash",
         "model_tokens": 8192,
+        "max_output_tokens": 250,
         "temperature": 0.1
     },
     "verbose": True,
@@ -18,23 +46,40 @@ graph_config = {
 }
 
 # Create the SmartScraperGraph instance
+### SmartScraperGraphAttributes:
+#         prompt (str): The prompt for the graph.
+#         source (str): The source of the graph.
+#         config (dict): Configuration parameters for the graph.
+#         schema (BaseModel): The schema for the graph output.
+#         llm_model: An instance of a language model client, configured for generating answers.
+#         embedder_model: An instance of an embedding model client,
+#         configured for generating embeddings.
+#         verbose (bool): A flag indicating whether to show print statements during execution.
+#         headless (bool): A flag indicating whether to run the graph in headless mode.
+
+#     Args:
+#         prompt (str): The prompt for the graph.
+#         source (str): The source of the graph.
+#         config (dict): Configuration parameters for the graph.
+#         schema (BaseModel): The schema for the graph output.
+
 smart_scraper_graph = SmartScraperGraph(
     prompt="""## Task: Extract NBN Internet Plan Details (JSON Output)
 
-    Visit the website, extract details of the NBN internet plan that matches the specified download speed. The latest price as shown on the website for the *same plan* with the matching speed is required.
+    Visit the website, extract details of the NBN internet plan that matches the specified download speed. The latest price as shown on the website for the *same plan* with the matching speed is required. Focus on the website's body, avoiding headers, footers, svg, scripts and promotional banners.
 
-    **Target Download Speed:** 100 Mbps
+    **Target Download Speed:** 250 Mbps
 
     **Instructions:**
     1. Fetch and Parse HTML from the specified URL
     2. Find the NBN plan with exactly 100 Mbps download speed
     3. Extract all plan details including:
-    - Plan name
-    - NBN Type
+    - Plan name (String)
+    - NBN Type (String)
     - Price (numerical value)
     - Download speed (integer value)
     - Upload speed (integer value)
-    - Promotion price
+    - Promotion price (String)
     - Promotion details (String or Null)
     - Additional plan details (String)
 
@@ -42,28 +87,29 @@ smart_scraper_graph = SmartScraperGraph(
     Return a JSON object with the following structure:
     {
         "plan_name": "Plan name as shown",
+        "nbn_type": "Denoted with NBN download_speed/upload_speed, e.g. nbn® 100/20",
         "price": 95.0,
-        "nbn_type": "NBN 100/20,"
         "download_speed": "100",
         "upload_speed": "20",
         "promotion_price": "Promotion price from promotion_details",
-        "promotion_details": "Any current promotion or null",
+        "promotion_details": "Any current price promotion or null",
         "plan_details": "Additional plan features",
         "confidence": [Confidence score between 0.0 and 1.0 indicating match quality. Must be >= 0.9 for verification.],
         "match_criteria": {
         "speed_match": [Boolean - True if download speed is exactly 100Mbps, otherwise False]
     }
     }""",
-    source="https://www.telstra.com.au/internet/nbn/",
+    source="https://www.aussiebroadband.com.au/internet/nbn-plans/",
     config=graph_config
 )
 
-# source="https://www.aussiebroadband.com.au/internet/nbn-plans/",
+# source="https://www.telstra.com.au/internet/nbn/",
 
 def run_scraper():
     """Run the scraper and return results"""
     try:
         result = smart_scraper_graph.run()
+        ## How can I add a result to extract the self.execution_info from src\scrapegraph_ai\scrapegraphai\graphs\smart_scraper_graph.py self.final_state, self.execution_info = self.graph.execute(inputs)
         return result
     except Exception as e:
         print(f"Error running scraper: {e}")
@@ -74,9 +120,24 @@ if __name__ == "__main__":
     if result:
         import json
         print(json.dumps(result, indent=4))
+# Maybe use these output and store in database?
+# retuirned from self.execution_info
+                # "node_name": "TOTAL RESULT",
+                # "total_tokens": cb_total["total_tokens"],
+                # "prompt_tokens": cb_total["prompt_tokens"],
+                # "completion_tokens": cb_total["completion_tokens"],
+                # "successful_requests": cb_total["successful_requests"],
+                # "total_cost_USD": cb_total["total_cost_USD"],
+                # "exec_time": total_exec_time,
 
 
 
+
+### Maybe change the chunk size
+            # chunks = split_text_into_chunks(
+            #     text=docs_transformed.page_content,
+            #     chunk_size=self.chunk_size - 250,
+            # )
 
  
 
