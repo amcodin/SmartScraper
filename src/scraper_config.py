@@ -14,43 +14,51 @@ graph_config = {
         "temperature": 0.1
     },
     "verbose": True,
-    "headless": False
+    "headless": True
 }
 
 # Create the SmartScraperGraph instance
 smart_scraper_graph = SmartScraperGraph(
     prompt="""## Task: Extract NBN Internet Plan Details (JSON Output)
 
-Visit the website, extract details of the NBN internet plan that matches the specified download speed. The latest price as shown on the website for the *same plan* with the matching speed is required.
+    Visit the website, extract details of the NBN internet plan that matches the specified download speed. The latest price as shown on the website for the *same plan* with the matching speed is required.
 
-**Target Download Speed:** 100 Mbps
+    **Target Download Speed:** 100 Mbps
 
-**Instructions:**
-1. Fetch and Parse HTML from the specified URL
-2. Find the NBN plan with exactly 100 Mbps download speed
-3. Extract all plan details including:
-   - Plan name
-   - Price (numerical value)
-   - Price string (as displayed)
-   - Download speed
-   - Upload speed
-   - Promotion details (if any)
-   - Additional plan details
+    **Instructions:**
+    1. Fetch and Parse HTML from the specified URL
+    2. Find the NBN plan with exactly 100 Mbps download speed
+    3. Extract all plan details including:
+    - Plan name
+    - NBN Type
+    - Price (numerical value)
+    - Download speed (integer value)
+    - Upload speed (integer value)
+    - Promotion price
+    - Promotion details (String or Null)
+    - Additional plan details (String)
 
-**Output Format Required:**
-Return a JSON object with the following structure:
-{
-    "plan_name": "Plan name as shown",
-    "price": 95.0,
-    "price_string": "$95/month",
-    "download_speed": "100Mbps",
-    "upload_speed": "20Mbps",
-    "promotion_details": "Any current promotion or null",
-    "plan_details": "Additional plan features"
-}""",
-    source="https://www.aussiebroadband.com.au/internet/nbn-plans/",
+    **Output Format Required:**
+    Return a JSON object with the following structure:
+    {
+        "plan_name": "Plan name as shown",
+        "price": 95.0,
+        "nbn_type": "NBN 100/20,"
+        "download_speed": "100",
+        "upload_speed": "20",
+        "promotion_price": "Promotion price from promotion_details",
+        "promotion_details": "Any current promotion or null",
+        "plan_details": "Additional plan features",
+        "confidence": [Confidence score between 0.0 and 1.0 indicating match quality. Must be >= 0.8 for verification.],
+        "match_criteria": {
+        "speed_match": [Boolean - True if download speed is exactly 100Mbps, otherwise False]
+    }
+    }""",
+    source="https://www.telstra.com.au/internet/nbn/",
     config=graph_config
 )
+
+# source="https://www.aussiebroadband.com.au/internet/nbn-plans/",
 
 def run_scraper():
     """Run the scraper and return results"""
@@ -69,6 +77,8 @@ if __name__ == "__main__":
 
 
 
+
+ 
 
 #    prompt="""## Task: Extract NBN Internet Plan Details (JSON Output)
 
@@ -117,4 +127,4 @@ if __name__ == "__main__":
 #         "speed_match": [Boolean - True if download speed is exactly 100Mbps, otherwise False]
 #     }}
 #    }}
-# ```"""
+# ```""",
