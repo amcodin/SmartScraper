@@ -3,6 +3,7 @@ from scrapegraphai import telemetry
 telemetry.disable_telemetry()
 import os
 from dotenv import load_dotenv
+from .scrapegraph_LLM_utils import get_scrape_total_result_metrics
 
 load_dotenv()
 
@@ -99,18 +100,11 @@ smart_scraper_graph = SmartScraperGraph(
     config=graph_config
 )
 
-def get_total_result_metrics(execution_info_list):
-    """Extract TOTAL RESULT metrics from execution info list"""
-    for info in execution_info_list:
-        if info.get("node_name") == "TOTAL RESULT":
-            return info
-    return None
-
 def run_scraper():
     """Run the scraper and return results with execution info"""
     try:
         result, execution_info = smart_scraper_graph.run()
-        total_metrics = get_total_result_metrics(execution_info)
+        total_metrics = get_scrape_total_result_metrics(execution_info)
         
         if total_metrics is None:
             raise Exception("Failed to find TOTAL RESULT metrics")
@@ -131,4 +125,3 @@ if __name__ == "__main__":
         print(json.dumps(results["scrape_result"], indent=4))
         print("\nExecution Metrics:")
         print(json.dumps(results["execution_metrics"], indent=4))
-
