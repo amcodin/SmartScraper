@@ -1,3 +1,0 @@
-REMOTE_URL="https://github.com/WebKit/WebKit.git"
-BASE_BRANCH="main"
-BASE_REVISION="71b1107b4656f116936a278cb4948cc2db56998c"

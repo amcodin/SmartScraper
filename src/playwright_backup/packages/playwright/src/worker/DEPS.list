@@ -1,6 +1,0 @@
-[*]
-../common/
-../transform/
-../util.ts
-../utilBundle.ts
-../matchers/**
