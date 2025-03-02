@@ -1,4 +1,4 @@
-from scrapegraphai.graphs import SmartScraperGraph
+from scrapegraph_ai.scrapegraphai.graphs import SmartScraperGraph
 import os
 from dotenv import load_dotenv
 

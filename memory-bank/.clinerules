@@ -1,8 +1,8 @@
 # Project Rules and Patterns
 
 - Never read .env files
-- Create virtual environment for 'python -m venv'
-- Check the virtual environemnt is active before executing installs in terminal
+- Create virtual environment for 'python -m venv .venv'
+- Check the virtual environemnt is active before executing installs in terminal '.venv\Scripts\activate'
 - Terminal commands use ; not &&
 - Activate and use the venv '.venv/Scripts/activate'
 
